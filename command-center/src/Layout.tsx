@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Command } from 'lucide-react';
+import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles } from 'lucide-react';
 
 const groups = {
   'Overview': [
-    { to: '/', icon: Command, label: 'Dashboard' },
-    { to: '/agents', icon: Bot, label: 'Agents' },
-    { to: '/services', icon: Server, label: 'Services' },
+    { to: '/', icon: Command, label: 'Dashboard', badge: 'Live' },
+    { to: '/agents', icon: Bot, label: 'Agents', badge: '8 active' },
+    { to: '/services', icon: Server, label: 'Services', badge: '7 online' },
   ],
   'Workspace': [
     { to: '/crm', icon: Building2, label: 'CRM' },
@@ -20,53 +20,66 @@ const groups = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen" style={{ background: 'var(--color-app-bg)' }}>
-      {/* Sidebar */}
-      <aside className="w-56 flex flex-col border-r shrink-0 select-none"
-        style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        
-        {/* Logo */}
-        <div className="flex items-center gap-2.5 px-4 h-12 border-b" style={{ borderColor: 'var(--color-border)' }}>
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #2563eb, #7c3aed)' }}>
-            <Zap size={15} className="text-white" />
+    <div className="flex h-screen" style={{ background: 'var(--color-bg)' }}>
+      <aside className="w-56 flex flex-col shrink-0 select-none glass border-r-0">
+        <div className="flex items-center gap-2.5 px-4 h-14 border-b" style={{ borderColor: 'var(--color-border)' }}>
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center glow-blue"
+            style={{ background: 'linear-gradient(135deg, #2563eb, #7c3aed)' }}>
+            <Zap size={16} className="text-white" />
           </div>
-          <span className="font-semibold text-sm tracking-tight">Command Center</span>
+          <div>
+            <div className="font-bold text-sm tracking-tight">Command Center</div>
+            <div className="text-[10px] flex items-center gap-1" style={{ color: 'var(--color-green)' }}>
+              <div className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: 'var(--color-green)' }} />
+              All systems go
+            </div>
+          </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 flex flex-col gap-5 px-3 py-4 overflow-auto">
+        <nav className="flex-1 flex flex-col gap-5 px-3 py-5 overflow-auto">
           {Object.entries(groups).map(([heading, items]) => (
             <div key={heading}>
-              <p className="px-2 mb-1.5 text-[11px] font-semibold tracking-widest uppercase"
+              <p className="px-2 mb-2 text-[10px] font-semibold tracking-[0.15em] uppercase"
                 style={{ color: 'var(--color-text-muted)' }}>{heading}</p>
-              {items.map(({ to, icon: Icon, label }) => (
+              {items.map(({ to, icon: Icon, label, badge }) => (
                 <NavLink key={to} to={to} end={to === '/'}
-                  className={({ isActive }: { isActive: boolean }) =>
-                    `flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
-                      isActive ? 'text-blue-300' : 'hover:text-white'
+                  className={({ isActive }) =>
+                    `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 mb-0.5 ${
+                      isActive ? 'glow-blue' : 'hover:bg-white/[0.03]'
                     }`}
-                  style={({ isActive }: { isActive: boolean }) => isActive
-                    ? { background: '#1e3a5f' }
-                    : { background: 'transparent' }}>
-                  <Icon size={16} strokeWidth={1.5} />
-                  {label}
+                  style={({ isActive }) => isActive
+                    ? { background: 'rgba(37,99,235,0.12)', color: '#93c5fd', border: '1px solid rgba(37,99,235,0.2)' }
+                    : { color: 'var(--color-text-secondary)', border: '1px solid transparent' }}>
+                  <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                  <span className="flex-1">{label}</span>
+                  {badge && (
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md"
+                      style={badge.includes('online') || badge.includes('Live')
+                        ? { background: 'var(--color-green-glow)', color: 'var(--color-green)' }
+                        : { background: 'var(--color-accent-glow)', color: 'var(--color-accent)' }}>
+                      {badge}
+                    </span>
+                  )}
                 </NavLink>
               ))}
             </div>
           ))}
         </nav>
 
-        {/* Footer */}
         <div className="px-4 py-3 border-t" style={{ borderColor: 'var(--color-border)' }}>
-          <div className="flex items-center gap-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-green)' }} />
-            v1.0 · All systems operational
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-purple-glow)' }}>
+              <Sparkles size={14} style={{ color: 'var(--color-purple)' }} />
+            </div>
+            <div>
+              <div className="text-[11px] font-medium">Self-Evolving</div>
+              <div className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>23 commits · v1.0</div>
+            </div>
           </div>
         </div>
       </aside>
 
-      {/* Content */}
-      <main className="flex-1 overflow-auto" style={{ background: 'var(--color-app-bg)' }}>
+      <main className="flex-1 overflow-auto" style={{ background: 'var(--color-bg)' }}>
         {children}
       </main>
     </div>
