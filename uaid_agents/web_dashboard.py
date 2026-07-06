@@ -14,6 +14,11 @@ from qdrant_client import QdrantClient
 import uvicorn
 
 app = FastAPI(title="UAID AI Dashboard")
+# Use password from env, or default (localhost-only with warning)
+DASHBOARD_PASSWORD = os.getenv("UAID_DASHBOARD_PASSWORD", "uaid2026")
+
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:*"], allow_methods=["*"], allow_headers=["*"])
 
 # ── Clients ────────────────────────────────────────────
 llm = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com/v1")
