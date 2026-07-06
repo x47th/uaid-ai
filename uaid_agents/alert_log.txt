@@ -1,0 +1,4 @@
+⚠️ UAID ALERT [17:11]
+  ❌ Open WebUI: <urlopen error [WinError 10061] No connection coul
+⚠️ UAID ALERT [17:12]
+  ❌ Open WebUI: <urlopen error [WinError 10061] No connection coul

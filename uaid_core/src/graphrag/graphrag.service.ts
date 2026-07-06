@@ -39,10 +39,11 @@ export class GraphRAGService implements OnModuleInit {
   async graphStats() {
     const session = this.driver.session();
     try {
-      const result = await session.run(
-        'MATCH (n) RETURN labels(n) as labels, count(n) as cnt',
-      );
-      return result.records.map(r => ({ type: r.get('labels')[0], count: r.get('cnt').toNumber() }));
+      const result = await session.run('MATCH (n) RETURN labels(n) as labels, count(n) as cnt');
+      return result.records.map(r => {
+        const cnt = r.get('cnt');
+        return { type: r.get('labels')[0], count: typeof cnt === 'number' ? cnt : (cnt?.toNumber?.() || 0) };
+      });
     } finally {
       await session.close();
     }
