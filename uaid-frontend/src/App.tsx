@@ -5,6 +5,7 @@ import Clients from './pages/Clients';
 import Projects from './pages/Projects';
 import Solutions from './pages/Solutions';
 import Chat from './pages/Chat';
+import Portal from './pages/Portal';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/portal" element={<Portal />} />
         </Routes>
       </Layout>
     </BrowserRouter>
