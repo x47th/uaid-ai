@@ -40,13 +40,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <p className="px-2 mb-1.5 text-[11px] font-semibold tracking-widest uppercase"
                 style={{ color: 'var(--color-text-muted)' }}>{heading}</p>
               {items.map(({ to, icon: Icon, label }) => (
-                <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) =>
-                  `flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
-                    isActive ? '' : 'hover:text-white'}`}
-                  style={({ isActive }) => isActive
-                    ? { background: '#1e3a5f', color: '#93c5fd' }
-                    : { color: 'var(--color-text-secondary)' }}>
-                  <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                <NavLink key={to} to={to} end={to === '/'}
+                  className={({ isActive }: { isActive: boolean }) =>
+                    `flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-[13px] font-medium transition-colors mb-0.5 ${
+                      isActive ? 'text-blue-300' : 'hover:text-white'
+                    }`}
+                  style={({ isActive }: { isActive: boolean }) => isActive
+                    ? { background: '#1e3a5f' }
+                    : { background: 'transparent' }}>
+                  <Icon size={16} strokeWidth={1.5} />
                   {label}
                 </NavLink>
               ))}
