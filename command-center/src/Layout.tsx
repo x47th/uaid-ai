@@ -43,14 +43,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 style={{ color: 'var(--color-text-muted)' }}>{heading}</p>
               {items.map(({ to, icon: Icon, label, badge }) => (
                 <NavLink key={to} to={to} end={to === '/'}
-                  className={({ isActive }) =>
+                  className={({ isActive }: { isActive: boolean }) =>
                     `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 mb-0.5 ${
-                      isActive ? 'glow-blue' : 'hover:bg-white/[0.03]'
-                    }`}
-                  style={({ isActive }) => isActive
-                    ? { background: 'rgba(37,99,235,0.12)', color: '#93c5fd', border: '1px solid rgba(37,99,235,0.2)' }
-                    : { color: 'var(--color-text-secondary)', border: '1px solid transparent' }}>
-                  <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                      isActive ? 'active-nav' : 'hover:bg-white/[0.03]'
+                    }`}>
+                  <Icon size={16} strokeWidth={1.5} />
                   <span className="flex-1">{label}</span>
                   {badge && (
                     <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md"

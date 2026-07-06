@@ -71,3 +71,7 @@ body {
 /* Hover lift */
 .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+/* Active nav link */
+.active-nav { background: rgba(37,99,235,0.12); color: #93c5fd; border: 1px solid rgba(37,99,235,0.2); box-shadow: 0 0 15px var(--color-accent-glow); }
+.active-nav:hover { background: rgba(37,99,235,0.18); }

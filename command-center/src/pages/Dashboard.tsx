@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Activity, TrendingUp, Clock, ArrowUpRight, Sparkles, Zap, Brain } from 'lucide-react';
+import { Activity, TrendingUp, Clock, ArrowUpRight, Sparkles, Zap, Brain, Server } from 'lucide-react';
 
 function StatCard({ label, value, change, icon: Icon, color, glow }: any) {
   return (
