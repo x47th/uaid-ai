@@ -1,0 +1,82 @@
+{
+  "name": "uaid-ai",
+  "version": "1.0.0",
+  "description": "UAID AI — Complete Multi-Agent Consultancy Platform",
+  "repository": "https://github.com/x47th/uaid-ai",
+  "license": "MIT",
+
+  "services": {
+    "ai_engine": {
+      "port": null,
+      "entry": "uaid_agents/complete_team.py",
+      "description": "8-agent parallel pipeline (CEO→Deployer)"
+    },
+    "horizon_api": {
+      "port": 3000,
+      "entry": "project-horizon/dist/main.js",
+      "description": "NestJS CRM backend with JWT + multi-tenant"
+    },
+    "horizon_frontend": {
+      "port": 5173,
+      "entry": "horizon-frontend/",
+      "description": "React + Tailwind + Vite frontend"
+    },
+    "uaid_dashboard": {
+      "port": 8000,
+      "entry": "uaid_agents/web_dashboard.py",
+      "description": "FastAPI dashboard with Neo4j graph viz"
+    },
+    "open_webui": {
+      "port": 8080,
+      "entry": "open-webui",
+      "description": "Open WebUI chat interface"
+    },
+    "neo4j": {
+      "port": 7474,
+      "bolt": 7687,
+      "description": "Graph database — knowledge graph"
+    },
+    "qdrant": {
+      "port": 6333,
+      "grpc": 6334,
+      "description": "Vector database — semantic search"
+    }
+  },
+
+  "infrastructure": {
+    "docker_compose": "docker-compose.yml",
+    "ci_cd": ".github/workflows/ci.yml",
+    "agents_file": "AGENTS.md"
+  },
+
+  "knowledge_base": {
+    "vault": "big lab/",
+    "notes_count": 31,
+    "neo4j_nodes": 32,
+    "qdrant_vectors": 23,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_dimensions": 384
+  },
+
+  "ai_models": {
+    "strategic": "deepseek-v4-pro",
+    "execution": "deepseek-v4-flash",
+    "pricing": {
+      "deepseek-v4-pro": { "input": 0.55, "output": 2.19 },
+      "deepseek-v4-flash": { "input": 0.14, "output": 0.28 }
+    }
+  },
+
+  "deployment": {
+    "docker": {
+      "registry": null,
+      "compose_file": "docker-compose.yml",
+      "services": ["postgres", "redis", "backend", "frontend"]
+    },
+    "production": {
+      "domain": null,
+      "ssl": true,
+      "cors_origins": null
+    }
+  }
+}
