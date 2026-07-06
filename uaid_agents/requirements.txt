@@ -1,0 +1,11 @@
+crewai==1.15.1
+crewai-cli==1.15.1
+crewai-core==1.15.1
+dspy==3.2.1
+dspy-ai==3.2.1
+neo4j==6.2.0
+openai==2.44.0
+python-dotenv==1.2.2
+qdrant-client==1.18.0
+sentence-transformers==5.6.0
+sentencepiece==0.2.1
