@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import Layout from './Layout';
 import Dashboard from './pages/Dashboard';
 import Agents from './pages/Agents';
@@ -12,8 +13,9 @@ import Settings from './pages/Settings';
 export default function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
+      <ErrorBoundary>
+        <Layout>
+          <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/services" element={<Services />} />
@@ -24,6 +26,7 @@ export default function App() {
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </Layout>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }
