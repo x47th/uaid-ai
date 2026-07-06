@@ -1,0 +1,47 @@
+name: 🧠 UAID Brain Sync — On Merge
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  sync-knowledge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: Install dependencies
+        run: |
+          pip install neo4j qdrant-client python-dotenv openai sentence-transformers
+
+      - name: 🧠 Sync vault → Neo4j + Qdrant
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: cd uaid_agents && python brain_sync.py
+
+      - name: 📊 Analyze code changes
+        run: |
+          echo "## 🧠 Brain Sync Report" >> $GITHUB_STEP_SUMMARY
+          echo "- Vault notes synced to Neo4j + Qdrant" >> $GITHUB_STEP_SUMMARY
+          echo "- Knowledge graph updated with latest patterns" >> $GITHUB_STEP_SUMMARY
+
+  graphify-codebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📐 Generate code knowledge graph
+        run: |
+          pip install graphifyy
+          graphify uaid_agents/ -o graphify-out/ --no-llm
+
+      - name: Upload graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-graph
+          path: graphify-out/

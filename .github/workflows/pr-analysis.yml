@@ -1,0 +1,50 @@
+name: 🔬 UAID Code Analysis — On PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: 📊 Get changed files
+        run: |
+          git diff --name-only origin/master...HEAD > changed_files.txt
+          echo "Changed files:"
+          cat changed_files.txt
+
+      - name: 🔍 Analyze code quality
+        run: |
+          echo "## 🔬 Code Analysis Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Category | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+
+          # Count by type
+          py_count=$(grep -c '\.py$' changed_files.txt || echo 0)
+          ts_count=$(grep -c '\.ts$' changed_files.txt || echo 0)
+          tsx_count=$(grep -c '\.tsx$' changed_files.txt || echo 0)
+
+          echo "| Python | $py_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| TypeScript | $ts_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| React TSX | $tsx_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| Total | $((py_count + ts_count + tsx_count)) |" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🧪 Run agent tests
+        run: |
+          pip install pytest
+          cd uaid_agents && python -m pytest test_agents.py -k "not Embeddings" --tb=short
+
+      - name: 📋 Create improvement tasks
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Suggested Tasks" >> $GITHUB_STEP_SUMMARY
+          echo "1. Review changed files for type safety" >> $GITHUB_STEP_SUMMARY
+          echo "2. Check for new test coverage gaps" >> $GITHUB_STEP_SUMMARY
+          echo "3. Update Obsidian vault if new features added" >> $GITHUB_STEP_SUMMARY

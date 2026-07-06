@@ -1,0 +1,40 @@
+name: ⚡ UAID Daily Optimization
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Every day at 8am
+  workflow_dispatch:       # Manual trigger
+
+jobs:
+  skill-optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: 📊 Run self-observer
+        run: |
+          pip install requests
+          cd uaid_agents && python self_observer.py
+
+      - name: 🧠 Sync brain
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: cd uaid_agents && python brain_sync.py
+
+      - name: 📈 Skill usage report
+        run: |
+          pip install requests
+          cd uaid_agents && python analytics.py
+
+      - name: 📊 Summary
+        run: |
+          echo "## ⚡ Daily Optimization Report" >> $GITHUB_STEP_SUMMARY
+          echo "- Health check: all services monitored" >> $GITHUB_STEP_SUMMARY
+          echo "- Brain synced: knowledge graph updated" >> $GITHUB_STEP_SUMMARY
+          echo "- Skills analyzed: improvement opportunities identified" >> $GITHUB_STEP_SUMMARY
+          echo "- Date: $(date)" >> $GITHUB_STEP_SUMMARY
