@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles } from 'lucide-react';
+import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles, MessageCircle } from 'lucide-react';
 
 const groups = {
   'Overview': [
     { to: '/', icon: Command, label: 'Dashboard', badge: 'Live' },
+    { to: '/chat', icon: MessageCircle, label: 'AI Chat', badge: 'Ask AI' },
     { to: '/agents', icon: Bot, label: 'Agents', badge: '8 active' },
     { to: '/services', icon: Server, label: 'Services', badge: '7 online' },
   ],

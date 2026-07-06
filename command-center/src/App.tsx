@@ -9,6 +9,7 @@ import Portal from './pages/Portal';
 import Knowledge from './pages/Knowledge';
 import Logs from './pages/Logs';
 import Settings from './pages/Settings';
+import Chat from './pages/Chat';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/knowledge" element={<Knowledge />} />
           <Route path="/logs" element={<Logs />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </Layout>
       </ErrorBoundary>
