@@ -25,13 +25,17 @@ class ClientSession:
                     name=self.client).single()
                 if r:
                     return {"existing": True, "related_types": r["types"], "created": datetime.now().isoformat()}
-        except:
+        except Exception:
             pass
 
-        SESSIONS_DIR.mkdir(exist_ok=True)
-        session_file = SESSIONS_DIR / f"{self.session_id}.json"
+        # Create fresh context
         ctx = {"client": self.client, "project": self.project, "history": [], "decisions": [], "created": datetime.now().isoformat()}
-        session_file.write_text(json.dumps(ctx, indent=2))
+        try:
+            SESSIONS_DIR.mkdir(exist_ok=True)
+            session_file = SESSIONS_DIR / f"{self.session_id}.json"
+            session_file.write_text(json.dumps(ctx, indent=2))
+        except Exception:
+            pass
         return ctx
 
     def remember(self, key: str, value: any):
