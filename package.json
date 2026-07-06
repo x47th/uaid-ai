@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@receptron/graphai_cli": "^2.0.12"
+  }
+}

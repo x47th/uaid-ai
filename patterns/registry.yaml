@@ -1,0 +1,26 @@
+# UAID AI — Pattern Registry
+# Machine-readable index for loop tools
+
+patterns:
+  - name: daily-triage
+    status: scaffolded
+    tool: hermes-agent
+    cadence: 24h
+    level: L1
+    state_file: STATE.md
+    loop_file: LOOP.md
+    description: Daily health check of Neo4j, Qdrant, DeepSeek services
+
+  - name: graphrag-query
+    status: active
+    tool: deepseek-v4-flash
+    cadence: manual
+    level: L1
+    description: Hybrid RAG queries combining Neo4j graph + Qdrant vectors
+
+  - name: crewai-pipeline
+    status: ready
+    tool: crewai
+    cadence: manual
+    level: L1
+    description: 3-agent pipeline — Research → Architecture → Documentation

@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String    @id @default(uuid())
+  name      String
+  domain    String?   @unique
+  createdAt DateTime  @default(now())
+  users     User[]
+  companies Company[]
+  contacts  Contact[]
+  deals     Deal[]
+  jobs      Job[]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Company {
+  id          String    @id @default(uuid())
+  name        String
+  domain      String?
+  industry    String?
+  size        String?
+  enrichedBy  String?
+  enrichedAt  DateTime?
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  contacts    Contact[]
+  deals       Deal[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@index([tenantId])
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String?
+  phone     String?
+  title     String?
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  deals     Deal[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([tenantId])
+  @@index([companyId])
+}
+
+model Deal {
+  id          String    @id @default(uuid())
+  name        String
+  amount      Float?
+  stage       String    @default("lead")
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
+  contactId   String?
+  contact     Contact?  @relation(fields: [contactId], references: [id])
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@index([tenantId])
+  @@index([companyId])
+}
+
+model Job {
+  id        String   @id @default(uuid())
+  type      String
+  status    String   @default("pending")
+  payload   String
+  result    String?
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([tenantId])
+  @@index([status])
+}
