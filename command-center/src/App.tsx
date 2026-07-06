@@ -10,6 +10,7 @@ import Knowledge from './pages/Knowledge';
 import Logs from './pages/Logs';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/logs" element={<Logs />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
       </ErrorBoundary>
