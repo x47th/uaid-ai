@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  email      String     @unique
+  name       String
+  role       String     @default("USER")
+  avatarUrl  String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  activities Activity[]
+  clients    Client[]
+  projects   Project[]
+  solutions  Solution[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Client {
+  id           String    @id @default(uuid())
+  name         String
+  industry     String
+  country      String    @default("UAE")
+  size         String?
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  notes        String?
+  status       String    @default("ACTIVE")
+  userId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id])
+  projects     Project[]
+
+  @@index([userId])
+  @@index([industry])
+  @@index([status])
+  @@index([name])
+}
+
+model Project {
+  id           String              @id @default(uuid())
+  name         String
+  description  String
+  status       String              @default("DISCOVERY")
+  priority     String              @default("MEDIUM")
+  budget       String?
+  deadline     DateTime?
+  startDate    DateTime?
+  endDate      DateTime?
+  clientId     String
+  userId       String
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  activities   Activity[]
+  user         User                @relation(fields: [userId], references: [id])
+  client       Client              @relation(fields: [clientId], references: [id])
+  technologies ProjectTechnology[]
+  solutions    Solution[]
+
+  @@index([clientId])
+  @@index([userId])
+  @@index([status])
+}
+
+model Solution {
+  id           String               @id @default(uuid())
+  title        String
+  description  String
+  category     String
+  status       String               @default("DRAFT")
+  effort       String?
+  costEstimate Float?
+  projectId    String
+  userId       String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  activities   Activity[]
+  user         User                 @relation(fields: [userId], references: [id])
+  project      Project              @relation(fields: [projectId], references: [id])
+  technologies SolutionTechnology[]
+
+  @@index([projectId])
+  @@index([category])
+  @@index([status])
+}
+
+model Technology {
+  id          String               @id @default(uuid())
+  name        String               @unique
+  category    String
+  description String?
+  url         String?
+  version     String?
+  createdAt   DateTime             @default(now())
+  projects    ProjectTechnology[]
+  solutions   SolutionTechnology[]
+
+  @@index([category])
+  @@index([name])
+}
+
+model ProjectTechnology {
+  projectId    String
+  technologyId String
+  assignedAt   DateTime   @default(now())
+  technology   Technology @relation(fields: [technologyId], references: [id])
+  project      Project    @relation(fields: [projectId], references: [id])
+
+  @@id([projectId, technologyId])
+}
+
+model SolutionTechnology {
+  solutionId   String
+  technologyId String
+  assignedAt   DateTime   @default(now())
+  technology   Technology @relation(fields: [technologyId], references: [id])
+  solution     Solution   @relation(fields: [solutionId], references: [id])
+
+  @@id([solutionId, technologyId])
+}
+
+model Activity {
+  id         String    @id @default(uuid())
+  action     String
+  entity     String
+  entityId   String
+  details    String?
+  metadata   String?
+  userId     String
+  projectId  String?
+  solutionId String?
+  createdAt  DateTime  @default(now())
+  solution   Solution? @relation(fields: [solutionId], references: [id])
+  project    Project?  @relation(fields: [projectId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@index([action])
+}
