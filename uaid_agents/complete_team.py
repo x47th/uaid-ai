@@ -67,9 +67,13 @@ Output: Deployment plan and docker-compose.yml if needed."""
 class UaidCompleteTeam:
     """8-agent pipeline: CEO → full team → delivery. Error recovery built-in."""
 
-    def __init__(self):
+    def __init__(self, client_name: str = None):
         self.log = []
         self.max_retries = 2
+        self.session = None
+        if client_name:
+            from client_session import ClientSession
+            self.session = ClientSession(client_name)
 
     def _safe_chat(self, model: str, system: str, user: str, label: str = "agent") -> str:
         """Chat with retry on failure."""
@@ -92,9 +96,25 @@ class UaidCompleteTeam:
 
         # 1. CEO: Strategy (must run first)
         print("\n[1/8] 👔 CEO Agent (deepseek-v4-pro)")
-        ceo = chat("deepseek-v4-pro", CEO_PROMPT,
-            f"Client problem: {client_problem}\nAnalyze and create an action plan.")
+        
+        # Inject client session context if available
+        session_context = ""
+        if self.session:
+            recent = self.session.recall()
+            if recent:
+                session_context = f"\nPrevious context with this client: {json.dumps(recent[-5:], default=str)}"
+        
+        ceo = self._safe_chat("deepseek-v4-pro", CEO_PROMPT,
+            f"Client problem: {client_problem}{session_context}\nAnalyze and create an action plan.")
         print(f"   ✅ Strategy ready")
+        
+        # Remember this interaction
+        if self.session:
+            try:
+                self.session.remember("last_problem", client_problem[:200])
+                self.session.remember("ceo_diagnosis", ceo[:300])
+            except Exception:
+                pass
 
         # 2-3. Researcher + Architect in PARALLEL
         print("\n[2-3/8] 🔬🏗️ Researcher + Architect (parallel)")

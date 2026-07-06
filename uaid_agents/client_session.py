@@ -18,20 +18,30 @@ class ClientSession:
         self.context = self._load_or_create()
 
     def _load_or_create(self) -> dict:
+        # Check for existing session files for this client
+        try:
+            SESSIONS_DIR.mkdir(exist_ok=True)
+            existing = sorted(SESSIONS_DIR.glob(f"{self.client}_*.json"), reverse=True)
+            for f in existing:
+                ctx = json.loads(f.read_text())
+                self.session_id = f.stem  # Reuse existing session
+                return ctx
+        except Exception:
+            pass
+
         # Check Neo4j for existing client data
         try:
             with NEO4J.session() as s:
-                r = s.run("MATCH (c:Client {name: $name})-[*1..3]-(related) RETURN c, collect(distinct labels(related)) as types",
-                    name=self.client).single()
+                r = s.run("MATCH (c:Client {name: $name}) RETURN c", name=self.client).single()
                 if r:
-                    return {"existing": True, "related_types": r["types"], "created": datetime.now().isoformat()}
+                    historic = r.data().get('c', {})
+                    return {"existing": True, "historic": str(historic)[:500], "history": [], "decisions": [], "created": datetime.now().isoformat()}
         except Exception:
             pass
 
         # Create fresh context
         ctx = {"client": self.client, "project": self.project, "history": [], "decisions": [], "created": datetime.now().isoformat()}
         try:
-            SESSIONS_DIR.mkdir(exist_ok=True)
             session_file = SESSIONS_DIR / f"{self.session_id}.json"
             session_file.write_text(json.dumps(ctx, indent=2))
         except Exception:
