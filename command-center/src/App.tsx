@@ -11,6 +11,7 @@ import Logs from './pages/Logs';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import NotFound from './pages/NotFound';
+import AgentOS from './pages/AgentOS';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/logs" element={<Logs />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/agent-os" element={<AgentOS />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles, MessageCircle } from 'lucide-react';
+import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles, MessageCircle, Cpu } from 'lucide-react';
 
 const groups = {
   'Overview': [
@@ -7,6 +7,7 @@ const groups = {
     { to: '/chat', icon: MessageCircle, label: 'AI Chat', badge: 'Ask AI' },
     { to: '/agents', icon: Bot, label: 'Agents', badge: '8 active' },
     { to: '/services', icon: Server, label: 'Services', badge: '7 online' },
+    { to: '/agent-os', icon: Cpu, label: 'Agent OS', badge: 'Live' },
   ],
   'Workspace': [
     { to: '/crm', icon: Building2, label: 'CRM' },

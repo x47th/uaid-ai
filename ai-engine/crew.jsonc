@@ -1,0 +1,12 @@
+{
+  "crew": {
+    "name": "UAID Agents",
+    "description": "Multi-agent AI orchestration for UAID — transforming business problems into AI solutions",
+    "agents": ["researcher", "architect", "writer"],
+    "tasks": [],
+    "verbose": true,
+    "process": "sequential",
+    "memory": true,
+    "cache": true
+  }
+}

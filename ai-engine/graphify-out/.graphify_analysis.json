@@ -1,0 +1,201 @@
+{
+  "communities": {
+    "0": [
+      "dspy_pipeline",
+      "dspy_pipeline_designsolution",
+      "dspy_pipeline_optimize_pipeline",
+      "dspy_pipeline_rationale_1",
+      "dspy_pipeline_rationale_30",
+      "dspy_pipeline_rationale_38",
+      "dspy_pipeline_rationale_46",
+      "dspy_pipeline_rationale_55",
+      "dspy_pipeline_rationale_91",
+      "dspy_pipeline_researchproblem",
+      "dspy_pipeline_uaidpipeline",
+      "dspy_pipeline_uaidpipeline_forward",
+      "dspy_pipeline_uaidpipeline_init",
+      "dspy_pipeline_writereport"
+    ],
+    "1": [
+      "complete_team",
+      "complete_team_chat",
+      "complete_team_rationale_1",
+      "complete_team_rationale_144",
+      "complete_team_rationale_22",
+      "complete_team_rationale_66",
+      "complete_team_uaidcompleteteam",
+      "complete_team_uaidcompleteteam_init",
+      "complete_team_uaidcompleteteam_run",
+      "complete_team_uaidcompleteteam_sync_to_brain"
+    ],
+    "2": [
+      "self_observer_rationale_12",
+      "self_observer_rationale_42",
+      "self_observer_selfobserver",
+      "self_observer_selfobserver_init",
+      "self_observer_selfobserver_load",
+      "self_observer_selfobserver_log",
+      "self_observer_selfobserver_reflect",
+      "self_observer_selfobserver_save",
+      "self_observer_selfobserver_stats"
+    ],
+    "3": [
+      "graphrag",
+      "graphrag_rationale_1",
+      "graphrag_rationale_26",
+      "graphrag_rationale_49",
+      "graphrag_uaidgraphrag",
+      "graphrag_uaidgraphrag_add_client",
+      "graphrag_uaidgraphrag_close"
+    ],
+    "4": [
+      "main",
+      "main_create_agents",
+      "main_rationale_1",
+      "main_rationale_11",
+      "main_rationale_46",
+      "main_run",
+      "main_run_query"
+    ],
+    "5": [
+      "request",
+      "web_dashboard",
+      "web_dashboard_chat",
+      "web_dashboard_graph",
+      "web_dashboard_home",
+      "web_dashboard_rationale_1",
+      "web_dashboard_status"
+    ],
+    "6": [
+      "brain_sync",
+      "brain_sync_embed",
+      "brain_sync_rationale_1",
+      "brain_sync_rationale_17",
+      "brain_sync_rationale_23",
+      "brain_sync_sync_vault"
+    ],
+    "7": [
+      "graphrag_rationale_112",
+      "graphrag_rationale_86",
+      "graphrag_rationale_98",
+      "graphrag_uaidgraphrag_add_document",
+      "graphrag_uaidgraphrag_embed",
+      "graphrag_uaidgraphrag_semantic_search"
+    ],
+    "8": [
+      "self_observer",
+      "self_observer_healthmonitor",
+      "self_observer_healthmonitor_check_all",
+      "self_observer_healthmonitor_is_healthy",
+      "self_observer_rationale_1",
+      "self_observer_rationale_62"
+    ],
+    "9": [
+      "graphrag_rationale_122",
+      "graphrag_rationale_70",
+      "graphrag_uaidgraphrag_graph_search",
+      "graphrag_uaidgraphrag_query"
+    ],
+    "10": [
+      "graphrag_rationale_38",
+      "graphrag_uaidgraphrag_init",
+      "graphrag_uaidgraphrag_init_qdrant"
+    ],
+    "11": [
+      "graphrag_rationale_58",
+      "graphrag_uaidgraphrag_add_solution"
+    ],
+    "12": [
+      "deepseek_tui"
+    ],
+    "13": [
+      "pkg_uaid_agents"
+    ]
+  },
+  "cohesion": {
+    "0": 0.18681318681318682,
+    "1": 0.24444444444444444,
+    "2": 0.3055555555555556,
+    "3": 0.2857142857142857,
+    "4": 0.38095238095238093,
+    "5": 0.2857142857142857,
+    "6": 0.4,
+    "7": 0.3333333333333333,
+    "8": 0.4,
+    "9": 0.5,
+    "10": 0.6666666666666666,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0
+  },
+  "gods": [
+    {
+      "id": "graphrag_uaidgraphrag",
+      "label": "UaidGraphRAG",
+      "degree": 12
+    },
+    {
+      "id": "self_observer_selfobserver",
+      "label": "SelfObserver",
+      "degree": 8
+    },
+    {
+      "id": "complete_team_uaidcompleteteam",
+      "label": "UaidCompleteTeam",
+      "degree": 5
+    },
+    {
+      "id": "dspy_pipeline_uaidpipeline",
+      "label": "UaidPipeline",
+      "degree": 5
+    },
+    {
+      "id": "main_run_query",
+      "label": "run_query()",
+      "degree": 4
+    },
+    {
+      "id": "self_observer_healthmonitor",
+      "label": "HealthMonitor",
+      "degree": 4
+    },
+    {
+      "id": "brain_sync_embed",
+      "label": "embed()",
+      "degree": 3
+    },
+    {
+      "id": "brain_sync_sync_vault",
+      "label": "sync_vault()",
+      "degree": 3
+    },
+    {
+      "id": "complete_team_chat",
+      "label": "chat()",
+      "degree": 3
+    },
+    {
+      "id": "dspy_pipeline_researchproblem",
+      "label": "ResearchProblem",
+      "degree": 3
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `UaidGraphRAG` connect `UaidGraphRAG` to `.query`, `._init_qdrant`, `.add_solution`, `.embed`?",
+      "why": "High betweenness centrality (0.053) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `SelfObserver` connect `SelfObserver` to `HealthMonitor`?",
+      "why": "High betweenness centrality (0.021) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Brain Sync — Direct Obsidian → Neo4j + Qdrant + DeepSeek pipeline Reads all vaul`, `Pseudo-embedding — upgrade to DeepSeek embeddings for production.`, `Read all .md files from vault and sync to Neo4j + Qdrant.` to the rest of the system?",
+      "why": "32 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ]
+}
