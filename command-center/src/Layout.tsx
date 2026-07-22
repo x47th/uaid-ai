@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles, MessageCircle, Cpu } from 'lucide-react';
+import { Command, Bot, Server, Building2, Users, Database, FileText, Settings, Zap, Sparkles, MessageCircle, Cpu, LayoutDashboard } from 'lucide-react';
 
 const groups = {
   'Overview': [
